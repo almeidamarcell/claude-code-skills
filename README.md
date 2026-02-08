@@ -1,8 +1,10 @@
 # Claude Code Skills
 
-**A curated collection of 34 skills that supercharge [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — turning it into a domain expert on demand.**
+**A curated collection of skills that supercharge [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — turning it into a domain expert on demand.**
 
 Skills are structured knowledge packs that Claude Code loads contextually. When you invoke a skill, Claude gains deep expertise in that domain: the right frameworks, best practices, proven patterns, and production-ready code templates. No hallucination, no outdated APIs — just precise, battle-tested guidance.
+
+> **Note:** This repo contains **9 tested skills** ready for production use, plus **25 marketing skills** in the `mkt-skills(not-tested)/` folder that are still being validated. See [Not-Tested Skills](#not-tested-skills-marketing) below for details.
 
 ## Quick Start
 
@@ -29,12 +31,14 @@ Skills activate automatically when Claude Code detects a matching context, or in
 /animejs        # Generate anime.js v4 animations
 /shaping        # Shape a solution collaboratively
 /tdd            # Test-driven development workflow
-/copywriting    # Write high-converting marketing copy
+/changelog      # Auto-generate changelogs from commits
 ```
 
 ---
 
-## Skills
+## Tested Skills
+
+These skills have been validated and are ready for use.
 
 ### Development & Engineering
 
@@ -54,55 +58,73 @@ Skills activate automatically when Claude Code detects a matching context, or in
 | **[shaping](shaping/)** | Collaborative problem definition and solution design using the Shape Up methodology |
 | **[breadboarding](breadboarding/)** | Map systems into affordance tables and wiring diagrams |
 
-### Marketing — Conversion & Growth
-
-| Skill | Description |
-|-------|-------------|
-| **[mkt-page-cro](mkt-page-cro/)** | Optimize any marketing page for conversions — homepage, landing, pricing, features |
-| **[mkt-signup-flow-cro](mkt-signup-flow-cro/)** | Reduce signup friction and boost registration conversions |
-| **[mkt-onboarding-cro](mkt-onboarding-cro/)** | Optimize post-signup activation and time-to-value |
-| **[mkt-form-cro](mkt-form-cro/)** | Optimize lead capture, contact, demo request, and checkout forms |
-| **[mkt-popup-cro](mkt-popup-cro/)** | Create and optimize popups, modals, overlays, and exit-intent triggers |
-| **[mkt-paywall-upgrade-cro](mkt-paywall-upgrade-cro/)** | Design in-app paywalls, upgrade screens, and feature gates |
-| **[mkt-ab-test-setup](mkt-ab-test-setup/)** | Plan, design, and implement A/B tests with proper statistical rigor |
-| **[mkt-analytics-tracking](mkt-analytics-tracking/)** | Set up GA4, GTM, event tracking, conversion tracking, and UTM strategies |
-| **[mkt-referral-program](mkt-referral-program/)** | Design referral and affiliate programs that drive viral growth |
-| **[mkt-free-tool-strategy](mkt-free-tool-strategy/)** | Plan and build free tools as marketing engines — engineering as marketing |
-
-### Marketing — Content & Copy
-
-| Skill | Description |
-|-------|-------------|
-| **[mkt-copywriting](mkt-copywriting/)** | Write clear, compelling marketing copy that drives action |
-| **[mkt-copy-editing](mkt-copy-editing/)** | Systematic multi-pass editing to polish existing marketing copy |
-| **[mkt-content-strategy](mkt-content-strategy/)** | Plan what content to create, topic clusters, and editorial calendars |
-| **[mkt-email-sequence](mkt-email-sequence/)** | Create drip campaigns, nurture sequences, and lifecycle email flows |
-| **[mkt-social-content](mkt-social-content/)** | Create platform-specific content for LinkedIn, Twitter/X, Instagram, TikTok |
-| **[mkt-marketing-psychology](mkt-marketing-psychology/)** | Apply 70+ mental models and behavioral science principles to marketing |
-| **[mkt-marketing-ideas](mkt-marketing-ideas/)** | 139 proven marketing approaches organized by category |
-| **[mkt-product-marketing-context](mkt-product-marketing-context/)** | Define your product positioning once, reference it across all marketing skills |
-
-### Marketing — SEO & Channels
-
-| Skill | Description |
-|-------|-------------|
-| **[mkt-seo-audit](mkt-seo-audit/)** | Audit technical SEO, on-page issues, meta tags, and ranking problems |
-| **[mkt-programmatic-seo](mkt-programmatic-seo/)** | Build SEO-driven template pages at scale — directories, location pages, comparisons |
-| **[mkt-competitor-alternatives](mkt-competitor-alternatives/)** | Create competitor comparison and alternative pages for SEO and sales |
-| **[mkt-paid-ads](mkt-paid-ads/)** | Google Ads, Meta, LinkedIn, Twitter/X — campaign strategy, targeting, and ad copy |
-
-### Marketing — Launch & Pricing
-
-| Skill | Description |
-|-------|-------------|
-| **[mkt-launch-strategy](mkt-launch-strategy/)** | Plan phased product launches — Product Hunt, beta, early access, waitlists |
-| **[mkt-pricing-strategy](mkt-pricing-strategy/)** | Design pricing tiers, packaging, freemium models, and monetization strategy |
-
 ### Brand
 
 | Skill | Description |
 |-------|-------------|
 | **[anthropic-brand-guideline](anthropic-brand-guideline/)** | Apply Anthropic's official brand colors, typography, and design standards |
+
+---
+
+## Not-Tested Skills (Marketing)
+
+> **These skills live in the [`mkt-skills(not-tested)/`](mkt-skills(not-tested)/) folder.** They are functional but have not been thoroughly validated yet. Use them at your own discretion — contributions and feedback are welcome to help promote them to tested status.
+
+To use a not-tested skill, copy it from the subfolder into your skills root:
+
+```bash
+cp -r ~/.claude/skills/mkt-skills\(not-tested\)/mkt-copywriting ~/.claude/skills/
+```
+
+### Conversion & Growth
+
+| Skill | Description |
+|-------|-------------|
+| **[mkt-page-cro](mkt-skills(not-tested)/mkt-page-cro/)** | Optimize any marketing page for conversions — homepage, landing, pricing, features |
+| **[mkt-signup-flow-cro](mkt-skills(not-tested)/mkt-signup-flow-cro/)** | Reduce signup friction and boost registration conversions |
+| **[mkt-onboarding-cro](mkt-skills(not-tested)/mkt-onboarding-cro/)** | Optimize post-signup activation and time-to-value |
+| **[mkt-form-cro](mkt-skills(not-tested)/mkt-form-cro/)** | Optimize lead capture, contact, demo request, and checkout forms |
+| **[mkt-popup-cro](mkt-skills(not-tested)/mkt-popup-cro/)** | Create and optimize popups, modals, overlays, and exit-intent triggers |
+| **[mkt-paywall-upgrade-cro](mkt-skills(not-tested)/mkt-paywall-upgrade-cro/)** | Design in-app paywalls, upgrade screens, and feature gates |
+| **[mkt-ab-test-setup](mkt-skills(not-tested)/mkt-ab-test-setup/)** | Plan, design, and implement A/B tests with proper statistical rigor |
+| **[mkt-analytics-tracking](mkt-skills(not-tested)/mkt-analytics-tracking/)** | Set up GA4, GTM, event tracking, conversion tracking, and UTM strategies |
+| **[mkt-referral-program](mkt-skills(not-tested)/mkt-referral-program/)** | Design referral and affiliate programs that drive viral growth |
+| **[mkt-free-tool-strategy](mkt-skills(not-tested)/mkt-free-tool-strategy/)** | Plan and build free tools as marketing engines — engineering as marketing |
+
+### Content & Copy
+
+| Skill | Description |
+|-------|-------------|
+| **[mkt-copywriting](mkt-skills(not-tested)/mkt-copywriting/)** | Write clear, compelling marketing copy that drives action |
+| **[mkt-copy-editing](mkt-skills(not-tested)/mkt-copy-editing/)** | Systematic multi-pass editing to polish existing marketing copy |
+| **[mkt-content-strategy](mkt-skills(not-tested)/mkt-content-strategy/)** | Plan what content to create, topic clusters, and editorial calendars |
+| **[mkt-email-sequence](mkt-skills(not-tested)/mkt-email-sequence/)** | Create drip campaigns, nurture sequences, and lifecycle email flows |
+| **[mkt-social-content](mkt-skills(not-tested)/mkt-social-content/)** | Create platform-specific content for LinkedIn, Twitter/X, Instagram, TikTok |
+| **[mkt-marketing-psychology](mkt-skills(not-tested)/mkt-marketing-psychology/)** | Apply 70+ mental models and behavioral science principles to marketing |
+| **[mkt-marketing-ideas](mkt-skills(not-tested)/mkt-marketing-ideas/)** | 139 proven marketing approaches organized by category |
+| **[mkt-product-marketing-context](mkt-skills(not-tested)/mkt-product-marketing-context/)** | Define your product positioning once, reference it across all marketing skills |
+
+### SEO & Channels
+
+| Skill | Description |
+|-------|-------------|
+| **[mkt-seo-audit](mkt-skills(not-tested)/mkt-seo-audit/)** | Audit technical SEO, on-page issues, meta tags, and ranking problems |
+| **[mkt-programmatic-seo](mkt-skills(not-tested)/mkt-programmatic-seo/)** | Build SEO-driven template pages at scale — directories, location pages, comparisons |
+| **[mkt-competitor-alternatives](mkt-skills(not-tested)/mkt-competitor-alternatives/)** | Create competitor comparison and alternative pages for SEO and sales |
+| **[mkt-paid-ads](mkt-skills(not-tested)/mkt-paid-ads/)** | Google Ads, Meta, LinkedIn, Twitter/X — campaign strategy, targeting, and ad copy |
+
+### Launch & Pricing
+
+| Skill | Description |
+|-------|-------------|
+| **[mkt-launch-strategy](mkt-skills(not-tested)/mkt-launch-strategy/)** | Plan phased product launches — Product Hunt, beta, early access, waitlists |
+| **[mkt-pricing-strategy](mkt-skills(not-tested)/mkt-pricing-strategy/)** | Design pricing tiers, packaging, freemium models, and monetization strategy |
+
+### Marketing Tools
+
+| Skill | Description |
+|-------|-------------|
+| **[mkt-tools](mkt-skills(not-tested)/mkt-tools/)** | Registry of 30+ marketing tool integrations (GA4, HubSpot, Stripe, Shopify, etc.) |
 
 ---
 
@@ -148,6 +170,8 @@ Contributions welcome! Whether it's a new skill, improvements to existing ones, 
 2. Create your branch (`git checkout -b feat/awesome-skill`)
 3. Commit your changes
 4. Push and open a PR
+
+**Want to help validate a not-tested skill?** Try it out and open an issue or PR with your findings. Once validated, the skill gets promoted to the root directory.
 
 ## License
 
