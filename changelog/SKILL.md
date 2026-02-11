@@ -1,103 +1,92 @@
 ---
 name: changelog-generator
-description: Automatically creates user-facing changelogs from git commits by analyzing commit history, categorizing changes, and transforming technical commits into clear, customer-friendly release notes. Turns hours of manual changelog writing into minutes of automated generation.
+description: Automatically creates user-facing changelogs from git commits by analyzing commit history, categorizing changes, and transforming technical commits into clear, customer-friendly release notes. Always persists the changelog to CHANGELOG.md in the project root.
 ---
 
 # Changelog Generator
 
 This skill transforms technical git commits into polished, user-friendly changelogs that your customers and users will actually understand and appreciate.
 
+## Critical Rule: Always Persist to File
+
+**ALWAYS write/update the `CHANGELOG.md` file in the project root.** The changelog must be committed alongside the code so it's versioned in git and visible on GitHub.
+
+### Workflow
+
+1. **Read existing `CHANGELOG.md`** (if it exists) to understand the current format and last documented version
+2. **Scan git history** for commits since the last documented version
+3. **Generate new entries** following the existing format
+4. **Prepend new entries** to `CHANGELOG.md` (newest version at the top, below the header)
+5. **Show the user** what was added
+
+Never just print the changelog to chat — always write it to the file.
+
 ## When to Use This Skill
 
-- Preparing release notes for a new version
-- Creating weekly or monthly product update summaries
-- Documenting changes for customers
-- Writing changelog entries for app store submissions
-- Generating update notifications
-- Creating internal release documentation
-- Maintaining a public changelog/product updates page
+- After completing a batch of commits (bug fixes, features, etc.)
+- Before creating a git tag or release
+- When the user asks for a changelog or release notes
+- As part of a PR or deploy workflow
 
 ## What This Skill Does
 
 1. **Scans Git History**: Analyzes commits from a specific time period or between versions
-2. **Categorizes Changes**: Groups commits into logical categories (features, improvements, bug fixes, breaking changes, security)
+2. **Categorizes Changes**: Groups into: Adicionado, Corrigido, Alterado, Removido (or the project's language)
 3. **Translates Technical → User-Friendly**: Converts developer commits into customer language
-4. **Formats Professionally**: Creates clean, structured changelog entries
-5. **Filters Noise**: Excludes internal commits (refactoring, tests, etc.)
-6. **Follows Best Practices**: Applies changelog guidelines and your brand voice
+4. **Formats Professionally**: Clean, structured entries following [Keep a Changelog](https://keepachangelog.com/) conventions
+5. **Filters Noise**: Excludes internal commits (refactoring, tests, CI, docs unless user-facing)
+6. **Persists to File**: Writes to `CHANGELOG.md` in the project root
+
+## Format
+
+Follow the project's existing `CHANGELOG.md` format. If none exists, use this default:
+
+```markdown
+# Changelog
+
+Todas as mudancas relevantes deste projeto estao documentadas aqui.
+
+---
+
+## [VERSION] - YYYY-MM-DD
+
+### Adicionado
+- **Feature name**: User-friendly description
+
+### Corrigido
+- **Bug name**: What was fixed and why it matters
+
+### Alterado
+- **Change name**: What changed and the impact
+```
+
+### Rules
+
+- Use the project's language (PT-BR if the project is in Portuguese)
+- One section per version, newest first
+- Group related commits into a single bullet point
+- Bold the feature/fix name, then describe the impact
+- Skip commits that are purely internal (test fixes, refactoring, CI config)
+- Use semantic versioning: MAJOR.MINOR.PATCH
+- Include the date in ISO format (YYYY-MM-DD)
 
 ## How to Use
 
-### Basic Usage
-
-From your project repository:
-
 ```
-Create a changelog from commits since last release
+/changelog
 ```
 
 ```
-Generate changelog for all commits from the past week
+Generate changelog for commits since last release
 ```
 
 ```
 Create release notes for version 2.5.0
 ```
 
-### With Specific Date Range
-
-```
-Create a changelog for all commits between March 1 and March 15
-```
-
-### With Custom Guidelines
-
-```
-Create a changelog for commits since v2.4.0, using my changelog 
-guidelines from CHANGELOG_STYLE.md
-```
-
-## Example
-
-**User**: "Create a changelog for commits from the past 7 days"
-
-**Output**:
-```markdown
-# Updates - Week of March 10, 2024
-
-## ✨ New Features
-
-- **Team Workspaces**: Create separate workspaces for different 
-  projects. Invite team members and keep everything organized.
-
-- **Keyboard Shortcuts**: Press ? to see all available shortcuts. 
-  Navigate faster without touching your mouse.
-
-## 🔧 Improvements
-
-- **Faster Sync**: Files now sync 2x faster across devices
-- **Better Search**: Search now includes file contents, not just titles
-
-## 🐛 Fixes
-
-- Fixed issue where large images wouldn't upload
-- Resolved timezone confusion in scheduled posts
-- Corrected notification badge count
-```
-
-**Inspired by:** Manik Aggarwal's use case from Lenny's Newsletter
-
 ## Tips
 
 - Run from your git repository root
-- Specify date ranges for focused changelogs
-- Use your CHANGELOG_STYLE.md for consistent formatting
-- Review and adjust the generated changelog before publishing
-- Save output directly to CHANGELOG.md
-
-## Related Use Cases
-
-- Creating GitHub release notes
-- Writing app store update descriptions
-- Generating email updates for users
-- Creating social media announcement posts
+- The skill auto-detects the last documented version and only adds new entries
+- If `CHANGELOG.md` doesn't exist, it creates one with the full history
+- Review the output in the file before committing
