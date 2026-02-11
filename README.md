@@ -30,6 +30,7 @@ Skills activate automatically when Claude Code detects a matching context, or in
 /shaping        # Shape a solution collaboratively
 /tdd            # Test-driven development workflow
 /changelog      # Auto-generate changelogs from commits
+/entire         # AI session tracking with checkpoints and rewind
 ```
 
 ---
@@ -48,6 +49,12 @@ These skills have been validated and are ready for use.
 | **[web-artifacts-builder](web-artifacts-builder/)** | Create multi-component React + Tailwind + shadcn/ui artifacts for claude.ai |
 | **[cheap-model-testing](cheap-model-testing/)** | Always use the cheapest LLM model during dev/testing — save costs, upgrade for prod |
 | **[changelog](changelog/)** | Auto-generate user-facing changelogs from git commit history |
+
+### Developer Workflow
+
+| Skill | Description |
+|-------|-------------|
+| **[entire](entire/)** | Capture AI agent sessions in your git workflow — checkpoints, rewind, session history, and troubleshooting |
 
 ### Product Design & Strategy
 
