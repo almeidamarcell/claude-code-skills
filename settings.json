@@ -1,0 +1,12 @@
+{
+  "enabledPlugins": {
+    "vercel@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "posthog@claude-plugins-official": true,
+    "greptile@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true
+  }
+}

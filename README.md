@@ -6,12 +6,23 @@ Skills are structured knowledge packs that Claude Code loads contextually. When 
 
 ## Quick Start
 
-### Install all skills
+### Install all skills + settings
 
 ```bash
 # Clone into your Claude Code skills directory
 git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
+
+# Sync plugin settings (enables all configured plugins)
+~/.claude/skills/setup.sh
 ```
+
+### Update on any device
+
+```bash
+cd ~/.claude/skills && git pull && ./setup.sh
+```
+
+This syncs both skills and plugin settings (`settings.json`) across all your devices.
 
 ### Install a single skill
 
