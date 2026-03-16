@@ -1,3 +1,5 @@
+![Chico Parrot](https://emojicreator.ai/packs/party-parrot/chico_parrot.gif)
+
 # Claude Code Skills
 
 **A curated collection of skills that supercharge [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — turning it into a domain expert on demand.**
