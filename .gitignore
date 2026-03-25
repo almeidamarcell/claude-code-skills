@@ -1,2 +1,9 @@
 .DS_Store
 *.DS_Store
+
+# gstack compiled binaries and dependencies (rebuilt by setup.sh)
+gstack/browse/dist/
+gstack/bin/gstack-global-discover
+gstack/node_modules/
+gstack/bun.lock
+gstack/.agents/
