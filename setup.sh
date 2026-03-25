@@ -50,4 +50,15 @@ grep -o '"[^"]*@[^"]*"' "$SETTINGS_DST" | sed 's/"//g' | while read -r plugin; d
   echo "  - $plugin"
 done
 echo ""
+# Build gstack (compiles browse binary and generates skill docs)
+GSTACK_DIR="$SCRIPT_DIR/gstack"
+if [ -d "$GSTACK_DIR" ] && [ -f "$GSTACK_DIR/setup" ]; then
+  echo ""
+  echo "Building gstack skills..."
+  echo "========================="
+  cd "$GSTACK_DIR" && ./setup
+  echo "gstack skills ready."
+  echo ""
+fi
+
 echo "Done! Restart Claude Code for changes to take effect."

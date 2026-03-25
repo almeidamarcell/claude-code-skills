@@ -10,11 +10,13 @@ Skills are structured knowledge packs that Claude Code loads contextually. When 
 
 ### Install all skills + settings
 
+> **Requires [Bun](https://bun.sh) v1.0+** for gstack browser skills. Install with `curl -fsSL https://bun.sh/install | bash`
+
 ```bash
 # Clone into your Claude Code skills directory
 git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
 
-# Sync plugin settings (enables all configured plugins)
+# Sync settings + build gstack browser binary
 ~/.claude/skills/setup.sh
 ```
 
@@ -44,6 +46,13 @@ Skills activate automatically when Claude Code detects a matching context, or in
 /tdd            # Test-driven development workflow
 /changelog      # Auto-generate changelogs from commits
 /entire         # AI session tracking with checkpoints and rewind
+
+# gstack skills
+/browse         # Real Chromium browser automation
+/qa             # QA testing with bug fixes
+/review         # Staff engineer code review
+/ship           # Release engineer workflow
+/office-hours   # YC-style product review
 ```
 
 ---
@@ -81,6 +90,89 @@ These skills have been validated and are ready for use.
 | Skill | Description |
 |-------|-------------|
 | **[anthropic-brand-guideline](anthropic-brand-guideline/)** | Apply Anthropic's official brand colors, typography, and design standards |
+
+### Deployment & Ops
+
+| Skill | Description |
+|-------|-------------|
+| **[safe-deploy](safe-deploy/)** | Pre-deploy safety checks — verifies branch ancestry before shipping |
+| **[clearshot](clearshot/)** | Structured screenshot analysis for UI implementation and critique |
+
+### Impeccable Design
+
+| Skill | Description |
+|-------|-------------|
+| **[impeccable](impeccable/)** | 18 design-focused sub-skills for UI/UX refinement (audit, polish, animate, harden, etc.) |
+
+---
+
+## gstack Skills
+
+[gstack](https://github.com/garrytan/gstack) by Garry Tan — 28 skills that structure development as a complete sprint cycle: Think → Plan → Build → Review → Test → Ship → Reflect.
+
+> **Requires [Bun](https://bun.sh) v1.0+** — gstack compiles a persistent browser daemon for QA/browsing skills.
+
+### Workflow & Planning
+
+| Skill | Description |
+|-------|-------------|
+| **[office-hours](gstack/office-hours/)** | YC Office Hours — six forcing questions that reframe your product before coding |
+| **[plan-ceo-review](gstack/plan-ceo-review/)** | CEO/founder-mode plan review — rethink the problem, find the 10-star product |
+| **[plan-eng-review](gstack/plan-eng-review/)** | Eng manager review — lock in architecture, data flow, edge cases, tests |
+| **[plan-design-review](gstack/plan-design-review/)** | Senior designer review — rate design dimensions 0-10, detect AI slop |
+| **[design-consultation](gstack/design-consultation/)** | Design partner — build a complete design system from scratch |
+| **[autoplan](gstack/autoplan/)** | Auto-review pipeline — runs CEO → design → eng review automatically |
+
+### Code Review & QA
+
+| Skill | Description |
+|-------|-------------|
+| **[review](gstack/review/)** | Staff engineer code review — find production bugs that pass CI |
+| **[qa](gstack/qa/)** | QA lead — test app, find bugs, fix with atomic commits, re-verify |
+| **[qa-only](gstack/qa-only/)** | QA reporter — same as /qa but report-only, no code changes |
+| **[design-review](gstack/design-review/)** | Designer who codes — design audit + fixes with before/after screenshots |
+| **[investigate](gstack/investigate/)** | Systematic root-cause debugging — traces data flow, tests hypotheses |
+| **[codex](gstack/codex/)** | Second opinion — independent code review from OpenAI Codex CLI |
+
+### Release & Monitoring
+
+| Skill | Description |
+|-------|-------------|
+| **[ship](gstack/ship/)** | Release engineer — sync main, run tests, audit coverage, push, open PR |
+| **[land-and-deploy](gstack/land-and-deploy/)** | Merge PR, wait for CI, deploy, verify production health |
+| **[canary](gstack/canary/)** | Post-deploy canary monitoring — watches for errors and regressions |
+| **[benchmark](gstack/benchmark/)** | Performance engineer — baseline Core Web Vitals, compare before/after |
+| **[document-release](gstack/document-release/)** | Technical writer — update docs to match shipped code |
+| **[retro](gstack/retro/)** | Weekly engineering retrospective with per-person breakdowns |
+
+### Browser & Infrastructure
+
+| Skill | Description |
+|-------|-------------|
+| **[browse](gstack/browse/)** | Real Chromium browser automation — real clicks, real screenshots, ~100ms per command |
+| **[setup-browser-cookies](gstack/setup-browser-cookies/)** | Import cookies from real browser for authenticated pages |
+
+### Security & Compliance
+
+| Skill | Description |
+|-------|-------------|
+| **[cso](gstack/cso/)** | Chief Security Officer — OWASP Top 10 + STRIDE threat model |
+
+### Safety Tools
+
+| Skill | Description |
+|-------|-------------|
+| **[careful](gstack/careful/)** | Warns before destructive commands (rm -rf, DROP TABLE, force-push) |
+| **[freeze](gstack/freeze/)** | Restrict file edits to one directory |
+| **[guard](gstack/guard/)** | Full safety — /careful + /freeze combined |
+| **[unfreeze](gstack/unfreeze/)** | Remove the /freeze boundary |
+
+### Configuration
+
+| Skill | Description |
+|-------|-------------|
+| **[setup-deploy](gstack/setup-deploy/)** | One-time deploy configuration for /land-and-deploy |
+| **[gstack-upgrade](gstack/gstack-upgrade/)** | Self-updater — upgrade gstack to latest |
 
 ---
 
