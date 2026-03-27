@@ -1,4 +1,5 @@
-![Chico Parrot](https://emojicreator.ai/packs/party-parrot/chico_parrot.gif)
+[![Chico Parrot](https://emojicreator.ai/packs/party-parrot/chico_parrot.gif)](https://emojicreator.ai/packs)
+by [Emoji Creator](https://emojicreator.ai/packs)
 
 # Claude Code Skills
 
