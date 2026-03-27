@@ -1,5 +1,6 @@
 [![Pepe Smoking](https://emojicreator.ai/packs/pepe-emojis-pack/pepesmoking.gif)](https://emojicreator.ai/emojis/pepesmoking)
-by [Emoji Creator](https://emojicreator.ai/emojis/packs)
+
+by [Emoji Creator](https://emojicreator.ai/packs)
 
 # Claude Code Skills
 
