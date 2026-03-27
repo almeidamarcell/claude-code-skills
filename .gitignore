@@ -7,3 +7,26 @@ gstack/bin/gstack-global-discover
 gstack/node_modules/
 gstack/bun.lock
 gstack/.agents/
+
+# impeccable symlinks at repo root (created by setup.sh)
+/adapt
+/animate
+/arrange
+/audit
+/bolder
+/clarify
+/colorize
+/critique
+/delight
+/distill
+/extract
+/frontend-design
+/harden
+/normalize
+/onboard
+/optimize
+/overdrive
+/polish
+/quieter
+/teach-impeccable
+/typeset

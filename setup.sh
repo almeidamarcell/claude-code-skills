@@ -75,6 +75,29 @@ else
   done
 fi
 
+# Symlink impeccable sub-skills to top level (Claude Code only discovers skills one level deep)
+IMPECCABLE_DIR="$SCRIPT_DIR/impeccable"
+if [ -d "$IMPECCABLE_DIR" ]; then
+  echo ""
+  echo "Linking impeccable skills..."
+  for skill_dir in "$IMPECCABLE_DIR"/*/; do
+    skill_name="$(basename "$skill_dir")"
+    if [ -f "$skill_dir/SKILL.md" ]; then
+      link_path="$SCRIPT_DIR/$skill_name"
+      if [ -L "$link_path" ]; then
+        # Already symlinked — skip
+        :
+      elif [ -e "$link_path" ]; then
+        echo "  WARNING: $skill_name already exists at top level, skipping"
+      else
+        ln -s "impeccable/$skill_name" "$link_path"
+        echo "  - $skill_name"
+      fi
+    fi
+  done
+  echo "Impeccable skills linked."
+fi
+
 # Build gstack (unless --no-gstack)
 GSTACK_DIR="$SCRIPT_DIR/gstack"
 if [ "$NO_GSTACK" = true ]; then
