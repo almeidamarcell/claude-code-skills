@@ -38,6 +38,55 @@ mkdir -p ~/.claude/skills
 cp -r path/to/skill ~/.claude/skills/
 ```
 
+---
+
+## Team Installation
+
+For teams where each member may have their own `settings.json` or doesn't need every skill.
+
+### Option 1: Clone without overwriting settings
+
+```bash
+git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
+
+# Install skills + gstack only — don't touch settings.json
+~/.claude/skills/setup.sh --skills-only
+```
+
+### Option 2: Skip gstack (no Bun required)
+
+```bash
+git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
+
+# Install skills without building the gstack browser daemon
+~/.claude/skills/setup.sh --no-gstack
+```
+
+Both flags can be combined: `./setup.sh --skills-only --no-gstack`
+
+### Option 3: Cherry-pick skills into an existing repo
+
+If your team already has a skills repo or wants to vendor specific skills:
+
+```bash
+# Copy individual skills into your team's skills directory
+cp -r tdd/ shaping/ safe-deploy/ /path/to/your-team-skills/
+
+# For gstack skills, copy the whole gstack/ directory (it has shared dependencies)
+cp -r gstack/ /path/to/your-team-skills/
+cd /path/to/your-team-skills/gstack && ./setup
+```
+
+### Team onboarding checklist
+
+1. **Clone the repo** — `git clone ... ~/.claude/skills`
+2. **Choose your install mode:**
+   - Full install (solo/opinionated): `./setup.sh`
+   - Skills only (keep your settings): `./setup.sh --skills-only`
+   - Lightweight (no browser): `./setup.sh --skills-only --no-gstack`
+3. **Restart Claude Code** for skills to take effect
+4. **Update anytime** — `cd ~/.claude/skills && git pull && ./setup.sh [same flags]`
+
 ### Use a skill
 
 Skills activate automatically when Claude Code detects a matching context, or invoke them explicitly:
