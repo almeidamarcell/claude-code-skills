@@ -1,5 +1,5 @@
-[![Chico Parrot](https://emojicreator.ai/packs/party-parrot/chico_parrot.gif)](https://emojicreator.ai/packs)
-by [Emoji Creator](https://emojicreator.ai/packs)
+[![Pepe Smoking](https://emojicreator.ai/packs/pepe-emojis-pack/pepesmoking.gif)](https://emojicreator.ai/emojis/pepesmoking)
+by [Emoji Creator](https://emojicreator.ai/emojis/pepesmoking)
 
 # Claude Code Skills
 
