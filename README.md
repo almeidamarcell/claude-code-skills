@@ -18,9 +18,11 @@ Skills are structured knowledge packs that Claude Code loads contextually. When 
 # Clone into your Claude Code skills directory
 git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
 
-# Sync settings + build gstack browser binary
+# Run setup (required — links impeccable skills, syncs settings, builds gstack)
 ~/.claude/skills/setup.sh
 ```
+
+> **Why is `setup.sh` required?** Claude Code only discovers skills one level deep (`~/.claude/skills/*/SKILL.md`). The 21 [Impeccable](https://github.com/pbakaus/impeccable) design skills live under `impeccable/` (two levels deep) and won't be visible without the symlinks that `setup.sh` creates. Always run `setup.sh` after cloning or pulling updates.
 
 ### Update on any device
 
@@ -28,12 +30,12 @@ git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/ski
 cd ~/.claude/skills && git pull && ./setup.sh
 ```
 
-This syncs both skills and plugin settings (`settings.json`) across all your devices.
+This syncs skills, recreates impeccable symlinks, and updates plugin settings (`settings.json`) across all your devices.
 
 ### Install a single skill
 
 ```bash
-# Copy just the skill you need
+# Copy just the skill you need (top-level skills only — impeccable skills require setup.sh)
 mkdir -p ~/.claude/skills
 cp -r path/to/skill ~/.claude/skills/
 ```
@@ -44,33 +46,43 @@ cp -r path/to/skill ~/.claude/skills/
 
 For teams where each member may have their own `settings.json` or doesn't need every skill.
 
-### Option 1: Clone without overwriting settings
+### Option 1: Full install (recommended)
 
 ```bash
 git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
+~/.claude/skills/setup.sh
+```
 
-# Install skills + gstack only — don't touch settings.json
+This gives you everything: all skills (including impeccable), shared settings, and gstack browser daemon.
+
+### Option 2: Skills only (keep your own settings)
+
+```bash
+git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
 ~/.claude/skills/setup.sh --skills-only
 ```
 
-### Option 2: Skip gstack (no Bun required)
+Installs all skills and impeccable symlinks but doesn't overwrite your existing `settings.json`.
+
+### Option 3: Lightweight (no Bun required)
 
 ```bash
 git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills
-
-# Install skills without building the gstack browser daemon
-~/.claude/skills/setup.sh --no-gstack
+~/.claude/skills/setup.sh --skills-only --no-gstack
 ```
 
-Both flags can be combined: `./setup.sh --skills-only --no-gstack`
+Installs all skills (including impeccable) without building the gstack browser daemon. No Bun dependency required.
 
-### Option 3: Cherry-pick skills into an existing repo
+### Option 4: Cherry-pick skills into an existing repo
 
 If your team already has a skills repo or wants to vendor specific skills:
 
 ```bash
 # Copy individual skills into your team's skills directory
 cp -r tdd/ shaping/ safe-deploy/ /path/to/your-team-skills/
+
+# For impeccable skills, copy each sub-skill directly (not the parent directory)
+for skill in impeccable/*/; do cp -r "$skill" /path/to/your-team-skills/; done
 
 # For gstack skills, copy the whole gstack/ directory (it has shared dependencies)
 cp -r gstack/ /path/to/your-team-skills/
@@ -79,13 +91,14 @@ cd /path/to/your-team-skills/gstack && ./setup
 
 ### Team onboarding checklist
 
-1. **Clone the repo** — `git clone ... ~/.claude/skills`
-2. **Choose your install mode:**
+1. **Clone the repo** — `git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills`
+2. **Run setup** (always required for impeccable skills):
    - Full install (solo/opinionated): `./setup.sh`
    - Skills only (keep your settings): `./setup.sh --skills-only`
    - Lightweight (no browser): `./setup.sh --skills-only --no-gstack`
 3. **Restart Claude Code** for skills to take effect
-4. **Update anytime** — `cd ~/.claude/skills && git pull && ./setup.sh [same flags]`
+4. **Verify impeccable skills** — run `/polish` or `/critique` in Claude Code to confirm they work
+5. **Update anytime** — `cd ~/.claude/skills && git pull && ./setup.sh [same flags]`
 
 ### Use a skill
 
@@ -131,16 +144,17 @@ Skills activate automatically when Claude Code detects a matching context, or in
 | **[clearshot](clearshot/)** | Structured screenshot analysis for UI implementation and critique — 5x5 spatial grid, element inventory, design system extraction |
 | **[anthropic-brand-guideline](anthropic-brand-guideline/)** | Apply Anthropic's official brand colors, typography, and design standards |
 
-### Impeccable Design (18 sub-skills)
+### Impeccable Design (21 sub-skills)
 
-A collection of design-focused skills for UI/UX refinement. Each targets a specific aspect of interface quality.
+A collection of design-focused skills from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) for UI/UX refinement. Each targets a specific aspect of interface quality.
 
-> **Note:** Impeccable skills live under `impeccable/` but Claude Code only discovers skills one level deep. Running `setup.sh` creates symlinks at the top level (e.g., `~/.claude/skills/polish` → `impeccable/polish`) so they're discoverable. If you installed without `setup.sh`, run it now to activate these skills.
+> **Important:** Impeccable skills live under `impeccable/` but Claude Code only discovers skills one level deep (`~/.claude/skills/*/SKILL.md`). **You must run `setup.sh`** to create symlinks at the top level (e.g., `~/.claude/skills/polish` → `impeccable/polish`). Without this step, impeccable skills will **not** be available in Claude Code. If you cloned without running `setup.sh`, run it now.
 
 | Skill | Description |
 |-------|-------------|
 | **[adapt](impeccable/adapt/)** | Adapt designs across screen sizes, devices, and contexts |
 | **[animate](impeccable/animate/)** | Enhance features with purposeful animations and micro-interactions |
+| **[arrange](impeccable/arrange/)** | Improve layout, spacing, and visual rhythm |
 | **[audit](impeccable/audit/)** | Comprehensive audit of accessibility, performance, and interface quality |
 | **[bolder](impeccable/bolder/)** | Amplify safe or boring designs to be more visually stimulating |
 | **[clarify](impeccable/clarify/)** | Improve UX copy, error messages, microcopy, labels, and instructions |
@@ -154,9 +168,11 @@ A collection of design-focused skills for UI/UX refinement. Each targets a speci
 | **[normalize](impeccable/normalize/)** | Normalize design to match your design system |
 | **[onboard](impeccable/onboard/)** | Design onboarding flows, empty states, and first-time user experiences |
 | **[optimize](impeccable/optimize/)** | Improve performance — loading, rendering, animations, image optimization |
+| **[overdrive](impeccable/overdrive/)** | Push interfaces past conventional limits — shaders, physics, 60fps animations |
 | **[polish](impeccable/polish/)** | Final quality pass — alignment, spacing, consistency, detail fixes |
 | **[quieter](impeccable/quieter/)** | Tone down overly bold or aggressive designs |
 | **[teach-impeccable](impeccable/teach-impeccable/)** | One-time setup — gathers design context for your project |
+| **[typeset](impeccable/typeset/)** | Improve typography — font choices, hierarchy, sizing, weight, readability |
 
 ---
 
