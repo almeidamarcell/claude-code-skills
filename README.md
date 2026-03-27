@@ -135,6 +135,8 @@ Skills activate automatically when Claude Code detects a matching context, or in
 
 A collection of design-focused skills for UI/UX refinement. Each targets a specific aspect of interface quality.
 
+> **Note:** Impeccable skills live under `impeccable/` but Claude Code only discovers skills one level deep. Running `setup.sh` creates symlinks at the top level (e.g., `~/.claude/skills/polish` → `impeccable/polish`) so they're discoverable. If you installed without `setup.sh`, run it now to activate these skills.
+
 | Skill | Description |
 |-------|-------------|
 | **[adapt](impeccable/adapt/)** | Adapt designs across screen sizes, devices, and contexts |
