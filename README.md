@@ -22,7 +22,7 @@ git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/ski
 ~/.claude/skills/setup.sh
 ```
 
-> **Why is `setup.sh` required?** Claude Code only discovers skills one level deep (`~/.claude/skills/*/SKILL.md`). The 21 [Impeccable](https://github.com/pbakaus/impeccable) design skills live under `impeccable/` (two levels deep) and won't be visible without the symlinks that `setup.sh` creates. Always run `setup.sh` after cloning or pulling updates.
+> **Why is `setup.sh` required?** Claude Code only discovers skills one level deep (`~/.claude/skills/*/SKILL.md`). The 21 [Impeccable](https://github.com/pbakaus/impeccable) design skills and 17 [SEO](https://github.com/AgriciDaniel/claude-seo) skills live under `impeccable/` and `claude-seo/` (two levels deep) and won't be visible without the symlinks that `setup.sh` creates. Always run `setup.sh` after cloning or pulling updates.
 
 ### Update on any device
 
@@ -30,7 +30,7 @@ git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/ski
 cd ~/.claude/skills && git pull && ./setup.sh
 ```
 
-This syncs skills, recreates impeccable symlinks, and updates plugin settings (`settings.json`) across all your devices.
+This syncs skills, recreates impeccable and SEO symlinks, and updates plugin settings (`settings.json`) across all your devices.
 
 ### Install a single skill
 
@@ -53,7 +53,7 @@ git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/ski
 ~/.claude/skills/setup.sh
 ```
 
-This gives you everything: all skills (including impeccable), shared settings, and gstack browser daemon.
+This gives you everything: all skills (including impeccable and SEO), shared settings, and gstack browser daemon.
 
 ### Option 2: Skills only (keep your own settings)
 
@@ -62,7 +62,7 @@ git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/ski
 ~/.claude/skills/setup.sh --skills-only
 ```
 
-Installs all skills and impeccable symlinks but doesn't overwrite your existing `settings.json`.
+Installs all skills and impeccable/SEO symlinks but doesn't overwrite your existing `settings.json`.
 
 ### Option 3: Lightweight (no Bun required)
 
@@ -71,7 +71,7 @@ git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/ski
 ~/.claude/skills/setup.sh --skills-only --no-gstack
 ```
 
-Installs all skills (including impeccable) without building the gstack browser daemon. No Bun dependency required.
+Installs all skills (including impeccable and SEO) without building the gstack browser daemon. No Bun dependency required.
 
 ### Option 4: Cherry-pick skills into an existing repo
 
@@ -84,6 +84,9 @@ cp -r tdd/ shaping/ safe-deploy/ /path/to/your-team-skills/
 # For impeccable skills, copy each sub-skill directly (not the parent directory)
 for skill in impeccable/*/; do cp -r "$skill" /path/to/your-team-skills/; done
 
+# For SEO skills, copy each sub-skill directly (not the parent directory)
+for skill in claude-seo/*/; do cp -r "$skill" /path/to/your-team-skills/; done
+
 # For gstack skills, copy the whole gstack/ directory (it has shared dependencies)
 cp -r gstack/ /path/to/your-team-skills/
 cd /path/to/your-team-skills/gstack && ./setup
@@ -92,7 +95,7 @@ cd /path/to/your-team-skills/gstack && ./setup
 ### Team onboarding checklist
 
 1. **Clone the repo** — `git clone https://github.com/almeidamarcell/claude-code-skills.git ~/.claude/skills`
-2. **Run setup** (always required for impeccable skills):
+2. **Run setup** (always required for impeccable and SEO skills):
    - Full install (solo/opinionated): `./setup.sh`
    - Skills only (keep your settings): `./setup.sh --skills-only`
    - Lightweight (no browser): `./setup.sh --skills-only --no-gstack`
@@ -173,6 +176,32 @@ A collection of design-focused skills from [pbakaus/impeccable](https://github.c
 | **[quieter](impeccable/quieter/)** | Tone down overly bold or aggressive designs |
 | **[teach-impeccable](impeccable/teach-impeccable/)** | One-time setup — gathers design context for your project |
 | **[typeset](impeccable/typeset/)** | Improve typography — font choices, hierarchy, sizing, weight, readability |
+
+### SEO Skills (17 sub-skills)
+
+A comprehensive SEO toolkit from [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo) covering technical audits, content quality, local SEO, schema markup, and more.
+
+> **Important:** SEO skills live under `claude-seo/` but Claude Code only discovers skills one level deep (`~/.claude/skills/*/SKILL.md`). **You must run `setup.sh`** to create symlinks at the top level (e.g., `~/.claude/skills/seo` → `claude-seo/seo`). Without this step, SEO skills will **not** be available in Claude Code.
+
+| Skill | Description |
+|-------|-------------|
+| **[seo](claude-seo/seo/)** | Comprehensive SEO analysis — full site audits, E-E-A-T, Core Web Vitals, schema, GEO |
+| **[seo-audit](claude-seo/seo-audit/)** | Full website technical audits with parallel subagent delegation |
+| **[seo-page](claude-seo/seo-page/)** | Deep single-page SEO analysis |
+| **[seo-technical](claude-seo/seo-technical/)** | Technical SEO audits — crawlability, indexability, security, Core Web Vitals |
+| **[seo-content](claude-seo/seo-content/)** | Content quality and E-E-A-T analysis with AI citation readiness |
+| **[seo-schema](claude-seo/seo-schema/)** | Schema.org structured data detection, validation, and generation |
+| **[seo-sitemap](claude-seo/seo-sitemap/)** | XML sitemap analysis and generation |
+| **[seo-images](claude-seo/seo-images/)** | Image optimization — alt text, file sizes, formats, lazy loading |
+| **[seo-image-gen](claude-seo/seo-image-gen/)** | AI image generation for SEO assets (OG images, hero images, infographics) |
+| **[seo-plan](claude-seo/seo-plan/)** | Strategic SEO planning — SaaS, e-commerce, local, publisher, agency templates |
+| **[seo-local](claude-seo/seo-local/)** | Local SEO — Google Business Profile, NAP consistency, citations |
+| **[seo-maps](claude-seo/seo-maps/)** | Maps intelligence — geo-grid rank tracking, GBP auditing, review analysis |
+| **[seo-geo](claude-seo/seo-geo/)** | Generative Engine Optimization — AI Overviews, ChatGPT search, Perplexity |
+| **[seo-hreflang](claude-seo/seo-hreflang/)** | Hreflang and international SEO validation |
+| **[seo-competitor-pages](claude-seo/seo-competitor-pages/)** | Competitor comparison and alternatives page generation |
+| **[seo-programmatic](claude-seo/seo-programmatic/)** | Programmatic SEO for pages generated at scale |
+| **[seo-dataforseo](claude-seo/seo-dataforseo/)** | Live SEO data via DataForSEO — SERP analysis, keyword research, backlinks |
 
 ---
 

@@ -98,6 +98,29 @@ if [ -d "$IMPECCABLE_DIR" ]; then
   echo "Impeccable skills linked."
 fi
 
+# Symlink claude-seo skills to top level (same reason as impeccable)
+SEO_DIR="$SCRIPT_DIR/claude-seo"
+if [ -d "$SEO_DIR" ]; then
+  echo ""
+  echo "Linking SEO skills..."
+  for skill_dir in "$SEO_DIR"/*/; do
+    skill_name="$(basename "$skill_dir")"
+    if [ -f "$skill_dir/SKILL.md" ]; then
+      link_path="$SCRIPT_DIR/$skill_name"
+      if [ -L "$link_path" ]; then
+        # Already symlinked — skip
+        :
+      elif [ -e "$link_path" ]; then
+        echo "  WARNING: $skill_name already exists at top level, skipping"
+      else
+        ln -s "claude-seo/$skill_name" "$link_path"
+        echo "  - $skill_name"
+      fi
+    fi
+  done
+  echo "SEO skills linked."
+fi
+
 # Build gstack (unless --no-gstack)
 GSTACK_DIR="$SCRIPT_DIR/gstack"
 if [ "$NO_GSTACK" = true ]; then
