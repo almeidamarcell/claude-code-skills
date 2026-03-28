@@ -30,3 +30,22 @@ gstack/.agents/
 /quieter
 /teach-impeccable
 /typeset
+
+# claude-seo symlinks at repo root (created by setup.sh)
+/seo
+/seo-audit
+/seo-competitor-pages
+/seo-content
+/seo-dataforseo
+/seo-geo
+/seo-hreflang
+/seo-image-gen
+/seo-images
+/seo-local
+/seo-maps
+/seo-page
+/seo-plan
+/seo-programmatic
+/seo-schema
+/seo-sitemap
+/seo-technical
