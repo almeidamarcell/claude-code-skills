@@ -1,0 +1,27 @@
+{
+  "name": "pinch-type-improved",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/pinch-type.js",
+  "module": "dist/pinch-type.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/pinch-type.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "dev": "vite example",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.3.0"
+  }
+}
