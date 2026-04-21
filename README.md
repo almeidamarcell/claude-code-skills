@@ -278,6 +278,25 @@ See [`mkt-skills(not-tested)/`](mkt-skills(not-tested)/) for the full list.
 
 ---
 
+## Laravel Skills
+
+Two project-level slash commands from [almeidamarcell/claude-laravel-skills](https://github.com/almeidamarcell/claude-laravel-skills) for Laravel apps. These are **slash commands** (not globally-installed skills) — copy them into your project's `.claude/commands/` directory.
+
+| Command | Description |
+|---------|-------------|
+| **[qa](claude-laravel-skills/qa.md)** | Functional QA via Chrome DevTools MCP — tests flows as a real user, finds bugs, and fixes them in the same session |
+| **[audit](claude-laravel-skills/audit.md)** | Full pentest — static tools (`composer audit` + Enlightn) plus active browser exploration, report-only with Laravel-specific remediation |
+
+Install per project:
+
+```bash
+cp claude-laravel-skills/qa.md claude-laravel-skills/audit.md your-project/.claude/commands/
+```
+
+See [`claude-laravel-skills/README.md`](claude-laravel-skills/README.md) for usage, configuration, and adapting to non-Laravel stacks.
+
+---
+
 ## Anatomy of a Skill
 
 Each skill is a directory containing a `SKILL.md` file with optional reference materials:
