@@ -1,11 +1,11 @@
 ---
-name: create-onboarding-video
-description: Produce short, punchy iOS app onboarding videos in HyperFrames that showcase a feature in action by animating isolated pieces of the UI (cropped components, not full screens) with nice UI-like transitions. Use when the user asks to create, build, or generate an onboarding video, app preview, feature demo clip, App Store preview, or any short video that demonstrates a mobile app feature using supplied screenshots.
+name: create-video-from-screenshot
+description: Produce short, punchy onboarding videos in HyperFrames that showcase a feature in action by animating isolated pieces of the UI (cropped components, not full screens) with nice UI-like transitions. Use when the user asks to create, build, or generate an onboarding video, app preview, feature demo clip, App Store preview, or any short video that demonstrates a mobile app feature using supplied screenshots.
 ---
 
 # Create Onboarding Video
 
-Produce a **short, punchy iOS onboarding video** in HyperFrames that showcases one feature working. Output is meant to feel like an App Store preview zoomed into the moment that proves the feature works — not a tutorial, not a screen recording, not a marketing reel.
+Produce a **short, punchy onboarding video** in HyperFrames that showcases one feature working. Output is meant to feel like an App Store preview zoomed into the moment that proves the feature works — not a tutorial, not a screen recording, not a marketing reel.
 
 ## What you make
 
@@ -13,7 +13,7 @@ Produce a **short, punchy iOS onboarding video** in HyperFrames that showcases o
 - **Style:** UI-first, **never the whole screen**. Each beat shows a **piece of the feature in action** — a single button being tapped, a toggle flipping, a row reordering, a sheet sliding up, a chart filling in — animated with **nice UI-like transitions** (springs, slides, scales, crossfades, masked reveals, shared-element swaps).
 - **What "pieces" means:** crop, mask, or extract just the relevant component from the supplied still — the card, the input field, the tab bar, the empty state turning into a filled state. The rest of the UI is omitted, blurred, or implied by a tinted background. We are showcasing **what the feature *does*,** not what the whole app looks like.
 - **Tone:** to the point. Each beat communicates one thing the feature does.
-- **Output:** a HyperFrames composition (HTML) that previews live in the browser and renders to MP4 (and optionally a portrait variant for App Store previews).
+- **Output:** a HyperFrames composition (HTML) that previews live in the browser and renders to MP4.
 
 ## Workflow
 
@@ -30,7 +30,7 @@ For each onboarding screen the user wants to feature, collect:
    - any variant worth showing (empty vs. filled, light vs. dark, etc.)
 2. **What the feature is** — one or two sentences on what this screen does for the user and what makes it feel good. This drives which detail to zoom into.
 3. **Order** — the sequence of screens in the onboarding flow.
-4. **Optional:** brand color / accent, font if non-standard, target aspect ratio (default 1080×1920 portrait for iOS), end-card text/CTA.
+4. **Optional:** brand color / accent, font if non-standard, ask for the target aspect ratio, end-card text/CTA.
 
 Use `AskUserQuestion` when the user is vague. Don't start rendering until you have stills + intent for every screen.
 
@@ -48,7 +48,7 @@ For each screen, identify the **single piece of the feature that proves the feat
 
 **Always invoke the `hyperframes` skill before writing composition HTML, and the `gsap` skill any time you author a timeline.** When you do, include this guidance in your prompt to it:
 
-> Build a short iOS-app onboarding video as a HyperFrames composition. **Never render the whole screen** — each beat must show a *piece of the feature in action*: an isolated/cropped/masked UI component (button, card, row, sheet, field, chart, etc.) animating through the interaction that demonstrates what the feature does. Place it on a clean tinted background; the rest of the app chrome is omitted or implied. Use **nice UI-like transitions** — GSAP springs/decelerating eases, masked reveals, shared-element morphs, crossfades, parallax — to move between beats. Each beat is its own clip on the timeline (`data-start` / `data-duration` in seconds), or a sub-composition loaded via `data-composition-src`. Build the hero-frame layout in static CSS first (Layout Before Animation), then add `gsap.from()` / `gsap.to()` tweens on a single paused timeline registered to `window.__timelines[...]`. Keep each beat short (3–8s). Stills live in an asset directory and are referenced by relative path on `<img>` tags; crop them with CSS `clip-path` / `overflow: hidden` / absolute positioning to extract the focal element.
+> Build a short onboarding video as a HyperFrames composition. **Never render the whole screen** — each beat must show a *piece of the feature in action*: an isolated/cropped/masked UI component (button, card, row, sheet, field, chart, etc.) animating through the interaction that demonstrates what the feature does. Place it on a clean tinted background; the rest of the app chrome is omitted or implied. Use **nice UI-like transitions** — GSAP springs/decelerating eases, masked reveals, shared-element morphs, crossfades, parallax — to move between beats. Each beat is its own clip on the timeline (`data-start` / `data-duration` in seconds), or a sub-composition loaded via `data-composition-src`. Build the hero-frame layout in static CSS first (Layout Before Animation), then add `gsap.from()` / `gsap.to()` tweens on a single paused timeline registered to `window.__timelines[...]`. Keep each beat short (3–8s). Stills live in an asset directory and are referenced by relative path on `<img>` tags; crop them with CSS `clip-path` / `overflow: hidden` / absolute positioning to extract the focal element.
 
 Project conventions:
 - Source stills in `assets/<screen-name>/<state>.png` (or wherever `hyperframes init` set the asset root); reference them with relative `src="..."` paths on `<img>`.
