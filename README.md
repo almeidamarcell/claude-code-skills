@@ -134,6 +134,7 @@ Skills activate automatically when Claude Code detects a matching context, or in
 | **[mcp-builder](mcp-builder/)** | Build high-quality MCP (Model Context Protocol) servers in TypeScript or Python |
 | **[web-artifacts-builder](web-artifacts-builder/)** | Create multi-component React + Tailwind + shadcn/ui artifacts for claude.ai |
 | **[animejs](animejs/)** | Generate production-ready anime.js v4 animations — DOM, SVG, scroll-triggered, timelines, stagger, draggable |
+| **[create-video-from-screenshot](create-video-from-screenshot/)** | Produce short, punchy onboarding videos in HyperFrames from app screenshots — UI-first, never the whole screen, with cursor + caption rules baked in |
 | **[cheap-model-testing](cheap-model-testing/)** | Always use the cheapest LLM model during dev/testing — save costs, upgrade for prod |
 | **[changelog](changelog/)** | Auto-generate user-facing changelogs from git commit history |
 | **[safe-deploy](safe-deploy/)** | Pre-deploy safety checks — verifies branch ancestry before shipping |
