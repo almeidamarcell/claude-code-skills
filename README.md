@@ -113,6 +113,7 @@ Skills activate automatically when Claude Code detects a matching context, or in
 /animejs        # Generate anime.js v4 animations
 /changelog      # Auto-generate changelogs from commits
 /clearshot      # Analyze a UI screenshot
+/humanizer      # Remove AI-writing tells from text
 
 # gstack skills
 /browse         # Real Chromium browser automation
@@ -147,6 +148,12 @@ Skills activate automatically when Claude Code detects a matching context, or in
 | **[breadboarding](breadboarding/)** | Map systems into affordance tables and wiring diagrams |
 | **[clearshot](clearshot/)** | Structured screenshot analysis for UI implementation and critique — 5x5 spatial grid, element inventory, design system extraction |
 | **[anthropic-brand-guideline](anthropic-brand-guideline/)** | Apply Anthropic's official brand colors, typography, and design standards |
+
+### Writing
+
+| Skill | Description |
+|-------|-------------|
+| **[humanizer](humanizer/)** | Strip AI-generated tells from text — 29 patterns from Wikipedia's "Signs of AI writing" guide, with optional voice calibration to match your own writing sample |
 
 ### Impeccable Design (21 sub-skills)
 
