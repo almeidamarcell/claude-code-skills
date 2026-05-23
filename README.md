@@ -133,7 +133,6 @@ Skills activate automatically when Claude Code detects a matching context, or in
 |-------|-------------|
 | **[tdd](tdd/)** | Strict test-driven development workflow. Red-green-refactor with zero exceptions |
 | **[mcp-builder](mcp-builder/)** | Build high-quality MCP (Model Context Protocol) servers in TypeScript or Python |
-| **[web-artifacts-builder](web-artifacts-builder/)** | Create multi-component React + Tailwind + shadcn/ui artifacts for claude.ai |
 | **[animejs](animejs/)** | Generate production-ready anime.js v4 animations — DOM, SVG, scroll-triggered, timelines, stagger, draggable |
 | **[create-video-from-screenshot](create-video-from-screenshot/)** | Produce short, punchy onboarding videos in HyperFrames from app screenshots — UI-first, never the whole screen, with cursor + caption rules baked in |
 | **[cheap-model-testing](cheap-model-testing/)** | Always use the cheapest LLM model during dev/testing — save costs, upgrade for prod |
@@ -147,7 +146,6 @@ Skills activate automatically when Claude Code detects a matching context, or in
 | **[shaping](shaping/)** | Collaborative problem definition and solution design using the Shape Up methodology |
 | **[breadboarding](breadboarding/)** | Map systems into affordance tables and wiring diagrams |
 | **[clearshot](clearshot/)** | Structured screenshot analysis for UI implementation and critique — 5x5 spatial grid, element inventory, design system extraction |
-| **[anthropic-brand-guideline](anthropic-brand-guideline/)** | Apply Anthropic's official brand colors, typography, and design standards |
 
 ### Writing
 
@@ -275,14 +273,6 @@ A comprehensive SEO toolkit from [AgriciDaniel/claude-seo](https://github.com/Ag
 |-------|-------------|
 | **[setup-deploy](gstack/setup-deploy/)** | One-time deploy configuration for /land-and-deploy |
 | **[gstack-upgrade](gstack/gstack-upgrade/)** | Self-updater — upgrade gstack to latest |
-
----
-
-## Marketing Skills (untested)
-
-25 marketing-focused skills covering A/B testing, analytics, copywriting, CRO, email sequences, SEO, pricing, and more. These have not been validated yet — use at your own risk.
-
-See [`mkt-skills(not-tested)/`](mkt-skills(not-tested)/) for the full list.
 
 ---
 
