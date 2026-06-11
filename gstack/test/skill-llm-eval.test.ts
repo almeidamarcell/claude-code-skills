@@ -540,7 +540,19 @@ async function runWorkflowJudge(opts: {
   const defaults = { clarity: 4, completeness: 3, actionability: 4 };
   const thresholds = { ...defaults, ...opts.thresholds };
 
-  const content = fs.readFileSync(path.join(ROOT, opts.skillPath), 'utf-8');
+  // Read the skeleton + sections UNION so carved skills (v2 plan T9) still
+  // expose markers that moved into sections/*.md (e.g. plan-eng's "## Review
+  // Sections" + "## CRITICAL RULE", plan-design's 7 passes). Without this the
+  // slice markers vanish from the skeleton and the judge scores empty content.
+  let content = fs.readFileSync(path.join(ROOT, opts.skillPath), 'utf-8');
+  const secDir = path.join(ROOT, path.dirname(opts.skillPath), 'sections');
+  if (fs.existsSync(secDir)) {
+    for (const f of fs.readdirSync(secDir).sort()) {
+      if (f.endsWith('.md') && !f.endsWith('.md.tmpl')) {
+        content += '\n' + fs.readFileSync(path.join(secDir, f), 'utf-8');
+      }
+    }
+  }
   const startIdx = content.indexOf(opts.startMarker);
   if (startIdx === -1) throw new Error(`Start marker not found in ${opts.skillPath}: "${opts.startMarker}"`);
 
@@ -775,6 +787,69 @@ describeIfSelected('Other skill evals', [
       judgeContext: 'a version upgrade detection and execution workflow',
       judgeGoal: 'how to detect install type, compare versions, back up current install, upgrade via git or fresh clone, run setup, and show what changed',
     });
+  }, 30_000);
+});
+
+// Voice directive eval — tests that the voice section produces the right tone
+describeIfSelected('Voice directive eval', ['voice directive tone'], () => {
+  testIfSelected('voice directive tone', async () => {
+    const t0 = Date.now();
+    // Read a tier 2+ skill to get the full voice directive in context
+    const content = fs.readFileSync(path.join(ROOT, 'review', 'SKILL.md'), 'utf-8');
+    const voiceStart = content.indexOf('## Voice');
+    if (voiceStart === -1) {
+      throw new Error('Voice section not found in review/SKILL.md. Was preamble.ts regenerated?');
+    }
+    const voiceEnd = content.indexOf('\n## ', voiceStart + 1);
+    const voiceSection = content.slice(voiceStart, voiceEnd > 0 ? voiceEnd : voiceStart + 3000);
+
+    const result = await callJudge<{
+      directness: number;
+      concreteness: number;
+      avoids_corporate: number;
+      avoids_ai_vocabulary: number;
+      connects_user_outcomes: number;
+      reasoning: string;
+    }>(`You are evaluating a voice directive for an AI coding assistant framework called GStack.
+Score each dimension 1-5 where 5 is excellent:
+
+1. directness: Does it instruct the agent to be direct, lead with the point, take positions?
+2. concreteness: Does it instruct the agent to name specific files, commands, line numbers, real numbers?
+3. avoids_corporate: Does it explicitly ban corporate/formal/academic tone and provide alternatives?
+4. avoids_ai_vocabulary: Does it ban AI-tell words and phrases with specific lists?
+5. connects_user_outcomes: Does it instruct the agent to connect technical work to real user experience?
+
+Return JSON only:
+{"directness": N, "concreteness": N, "avoids_corporate": N, "avoids_ai_vocabulary": N, "connects_user_outcomes": N, "reasoning": "..."}
+
+THE VOICE DIRECTIVE:
+${voiceSection}`);
+
+    console.log('Voice directive scores:', JSON.stringify(result, null, 2));
+
+    evalCollector?.addTest({
+      name: 'voice directive tone',
+      suite: 'Voice directive eval',
+      tier: 'llm-judge',
+      passed: result.directness >= 4 && result.concreteness >= 4 && result.avoids_corporate >= 4
+        && result.avoids_ai_vocabulary >= 4 && result.connects_user_outcomes >= 4,
+      duration_ms: Date.now() - t0,
+      cost_usd: 0.02,
+      judge_scores: {
+        directness: result.directness,
+        concreteness: result.concreteness,
+        avoids_corporate: result.avoids_corporate,
+        avoids_ai_vocabulary: result.avoids_ai_vocabulary,
+        connects_user_outcomes: result.connects_user_outcomes,
+      },
+      judge_reasoning: result.reasoning,
+    });
+
+    expect(result.directness).toBeGreaterThanOrEqual(4);
+    expect(result.concreteness).toBeGreaterThanOrEqual(4);
+    expect(result.avoids_corporate).toBeGreaterThanOrEqual(4);
+    expect(result.avoids_ai_vocabulary).toBeGreaterThanOrEqual(4);
+    expect(result.connects_user_outcomes).toBeGreaterThanOrEqual(4);
   }, 30_000);
 });
 

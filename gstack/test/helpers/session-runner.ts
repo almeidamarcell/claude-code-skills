@@ -126,6 +126,10 @@ export async function runSkillTest(options: {
   runId?: string;
   /** Model to use. Defaults to claude-sonnet-4-6 (overridable via EVALS_MODEL env). */
   model?: string;
+  /** Extra env vars merged into the spawned claude -p process. Useful for
+   *  per-test GSTACK_HOME overrides so the test doesn't have to spell out
+   *  env setup in the prompt itself. */
+  env?: Record<string, string>;
 }): Promise<SkillTestResult> {
   const {
     prompt,
@@ -135,6 +139,7 @@ export async function runSkillTest(options: {
     timeout = 120_000,
     testName,
     runId,
+    env: extraEnv,
   } = options;
   const model = options.model ?? process.env.EVALS_MODEL ?? 'claude-sonnet-4-6';
 
@@ -171,6 +176,11 @@ export async function runSkillTest(options: {
 
   const proc = Bun.spawn(['sh', '-c', `cat "${promptFile}" | claude ${args.map(a => `"${a}"`).join(' ')}`], {
     cwd: workingDirectory,
+    // Default GSTACK_HEADLESS=1 so eval/E2E runs classify as headless (BLOCK on an
+    // AskUserQuestion failure rather than emit a prose question no human reads). A
+    // suite exercising the INTERACTIVE prose-fallback path opts out by passing
+    // `env: { GSTACK_HEADLESS: '' }` — extraEnv wins because it spreads last.
+    env: { ...process.env, GSTACK_HEADLESS: '1', ...extraEnv },
     stdout: 'pipe',
     stderr: 'pipe',
   });
@@ -303,12 +313,13 @@ export async function runSkillTest(options: {
 
   // Use resultLine for structured result data
   if (resultLine) {
-    if (resultLine.is_error) {
+    if (resultLine.subtype === 'success' && resultLine.is_error) {
       // claude -p can return subtype=success with is_error=true (e.g. API connection failure)
       exitReason = 'error_api';
     } else if (resultLine.subtype === 'success') {
       exitReason = 'success';
     } else if (resultLine.subtype) {
+      // Preserve known subtypes like error_max_turns even if is_error is set
       exitReason = resultLine.subtype;
     }
   }

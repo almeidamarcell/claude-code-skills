@@ -167,8 +167,11 @@ function getGitRemote(cwd: string): string | null {
       stdio: ["pipe", "pipe", "pipe"],
     }).trim();
     return remote || null;
-  } catch {
-    return null;
+  } catch (err: any) {
+    // Expected: no remote configured, repo not found, git not installed
+    if (err?.status !== undefined) return null; // non-zero exit from git
+    if (err?.code === 'ENOENT') return null;    // git binary not found
+    throw err;
   }
 }
 
@@ -183,8 +186,9 @@ function scanClaudeCode(since: Date): Session[] {
   let dirs: string[];
   try {
     dirs = readdirSync(projectsDir);
-  } catch {
-    return [];
+  } catch (err: any) {
+    if (err?.code === 'ENOENT' || err?.code === 'EACCES') return [];
+    throw err;
   }
 
   for (const dirName of dirs) {
@@ -209,8 +213,9 @@ function scanClaudeCode(since: Date): Session[] {
     const hasRecentFile = jsonlFiles.some((f) => {
       try {
         return statSync(join(dirPath, f)).mtime >= since;
-      } catch {
-        return false;
+      } catch (err: any) {
+        if (err?.code === 'ENOENT' || err?.code === 'EACCES') return false;
+        throw err;
       }
     });
     if (!hasRecentFile) continue;
@@ -223,8 +228,9 @@ function scanClaudeCode(since: Date): Session[] {
     const recentFiles = jsonlFiles.filter((f) => {
       try {
         return statSync(join(dirPath, f)).mtime >= since;
-      } catch {
-        return false;
+      } catch (err: any) {
+        if (err?.code === 'ENOENT' || err?.code === 'EACCES') return false;
+        throw err;
       }
     });
     for (let i = 0; i < recentFiles.length; i++) {
@@ -251,8 +257,9 @@ function resolveClaudeCodeCwd(
     .map((f) => {
       try {
         return { name: f, mtime: statSync(join(dirPath, f)).mtime.getTime() };
-      } catch {
-        return null;
+      } catch (err: any) {
+        if (err?.code === 'ENOENT' || err?.code === 'EACCES') return null;
+        throw err;
       }
     })
     .filter(Boolean)
@@ -266,16 +273,23 @@ function resolveClaudeCodeCwd(
   return null;
 }
 
-function extractCwdFromJsonl(filePath: string): string | null {
+export function extractCwdFromJsonl(filePath: string): string | null {
+  // Read a capped prefix so huge JSONL files don't blow up memory. 64KB
+  // comfortably fits the largest observed session headers; the old 8KB cap
+  // would sometimes fall inside a single long line and silently drop the
+  // project (JSON.parse failure on the truncated tail).
+  const MAX_BYTES = 64 * 1024;
+  const MAX_LINES = 30;
   try {
-    // Read only the first 8KB to avoid loading huge JSONL files into memory
     const fd = openSync(filePath, "r");
-    const buf = Buffer.alloc(8192);
-    const bytesRead = readSync(fd, buf, 0, 8192, 0);
+    const buf = Buffer.alloc(MAX_BYTES);
+    const bytesRead = readSync(fd, buf, 0, MAX_BYTES, 0);
     closeSync(fd);
     const text = buf.toString("utf-8", 0, bytesRead);
-    const lines = text.split("\n").slice(0, 15);
-    for (const line of lines) {
+    // Drop the final segment — it may be an incomplete line at the cap boundary.
+    const parts = text.split("\n");
+    const completeLines = parts.length > 1 ? parts.slice(0, -1) : parts;
+    for (const line of completeLines.slice(0, MAX_LINES)) {
       if (!line.trim()) continue;
       try {
         const obj = JSON.parse(line);
@@ -291,7 +305,7 @@ function extractCwdFromJsonl(filePath: string): string | null {
 }
 
 function scanCodex(since: Date): Session[] {
-  const sessionsDir = join(homedir(), ".codex", "sessions");
+  const sessionsDir = process.env.CODEX_SESSIONS_DIR || join(homedir(), ".codex", "sessions");
   if (!existsSync(sessionsDir)) return [];
 
   const sessions: Session[] = [];
@@ -326,11 +340,14 @@ function scanCodex(since: Date): Session[] {
               continue;
             }
 
-            // Read first line for session_meta (only first 4KB)
+            // Codex session_meta lines embed the full system prompt in
+            // base_instructions (~15KB as of CLI v0.117+). A 4KB buffer
+            // truncates the line and JSON.parse fails. 128KB covers current
+            // sizes with room for growth.
             try {
               const fd = openSync(filePath, "r");
-              const buf = Buffer.alloc(4096);
-              const bytesRead = readSync(fd, buf, 0, 4096, 0);
+              const buf = Buffer.alloc(131072);
+              const bytesRead = readSync(fd, buf, 0, 131072, 0);
               closeSync(fd);
               const firstLine = buf.toString("utf-8", 0, bytesRead).split("\n")[0];
               if (!firstLine) continue;
@@ -378,8 +395,9 @@ function scanGemini(since: Date): Session[] {
   let projectDirs: string[];
   try {
     projectDirs = readdirSync(tmpDir);
-  } catch {
-    return [];
+  } catch (err: any) {
+    if (err?.code === 'ENOENT' || err?.code === 'EACCES') return [];
+    throw err;
   }
 
   for (const projectName of projectDirs) {

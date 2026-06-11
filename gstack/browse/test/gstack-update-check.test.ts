@@ -92,6 +92,35 @@ describe('gstack-update-check', () => {
     expect(cache).toContain('UP_TO_DATE');
   });
 
+  // ─── Path C2: Just-upgraded marker + newer remote ──────────
+  test('just-upgraded marker does not mask newer remote version', () => {
+    writeFileSync(join(gstackDir, 'VERSION'), '0.4.0\n');
+    writeFileSync(join(stateDir, 'just-upgraded-from'), '0.3.3\n');
+    writeFileSync(join(gstackDir, 'REMOTE_VERSION'), '0.5.0\n');
+
+    const { exitCode, stdout } = run();
+    expect(exitCode).toBe(0);
+    // Should output both the just-upgraded notice AND the new upgrade
+    expect(stdout).toContain('JUST_UPGRADED 0.3.3 0.4.0');
+    expect(stdout).toContain('UPGRADE_AVAILABLE 0.4.0 0.5.0');
+    // Cache should reflect the upgrade available, not UP_TO_DATE
+    const cache = readFileSync(join(stateDir, 'last-update-check'), 'utf-8');
+    expect(cache).toContain('UPGRADE_AVAILABLE 0.4.0 0.5.0');
+  });
+
+  // ─── Path C3: Just-upgraded marker + remote matches local ──
+  test('just-upgraded with no further updates writes UP_TO_DATE cache', () => {
+    writeFileSync(join(gstackDir, 'VERSION'), '0.4.0\n');
+    writeFileSync(join(stateDir, 'just-upgraded-from'), '0.3.3\n');
+    writeFileSync(join(gstackDir, 'REMOTE_VERSION'), '0.4.0\n');
+
+    const { exitCode, stdout } = run();
+    expect(exitCode).toBe(0);
+    expect(stdout).toBe('JUST_UPGRADED 0.3.3 0.4.0');
+    const cache = readFileSync(join(stateDir, 'last-update-check'), 'utf-8');
+    expect(cache).toContain('UP_TO_DATE');
+  });
+
   // ─── Path D1: Fresh cache, UP_TO_DATE ───────────────────────
   test('exits silently when cache says UP_TO_DATE and is fresh', () => {
     writeFileSync(join(gstackDir, 'VERSION'), '0.3.3\n');
@@ -466,6 +495,40 @@ describe('gstack-update-check', () => {
   });
 
   // ─── Split TTL tests ─────────────────────────────────────────
+
+  // ─── Semver-order guard ─────────────────────────────────────
+  // When the upstream raw CDN serves a stale (older) VERSION right after a
+  // release, the script previously emitted a backwards UPGRADE_AVAILABLE
+  // line. The guard treats REMOTE < LOCAL as up-to-date.
+
+  test('remote older than local (stale CDN) → silent, cache UP_TO_DATE', () => {
+    writeFileSync(join(gstackDir, 'VERSION'), '1.34.0.0\n');
+    writeFileSync(join(gstackDir, 'REMOTE_VERSION'), '1.33.2.0\n');
+
+    const { exitCode, stdout } = run();
+    expect(exitCode).toBe(0);
+    expect(stdout).toBe('');
+    const cache = readFileSync(join(stateDir, 'last-update-check'), 'utf-8');
+    expect(cache).toContain('UP_TO_DATE 1.34.0.0');
+  });
+
+  test('multi-segment sort: 1.9.0.0 < 1.10.0.0', () => {
+    writeFileSync(join(gstackDir, 'VERSION'), '1.9.0.0\n');
+    writeFileSync(join(gstackDir, 'REMOTE_VERSION'), '1.10.0.0\n');
+
+    const { stdout } = run();
+    expect(stdout).toBe('UPGRADE_AVAILABLE 1.9.0.0 1.10.0.0');
+  });
+
+  test('multi-segment reverse sort: 1.10.0.0 > 1.9.0.0 → no rewind', () => {
+    writeFileSync(join(gstackDir, 'VERSION'), '1.10.0.0\n');
+    writeFileSync(join(gstackDir, 'REMOTE_VERSION'), '1.9.0.0\n');
+
+    const { stdout } = run();
+    expect(stdout).toBe('');
+    const cache = readFileSync(join(stateDir, 'last-update-check'), 'utf-8');
+    expect(cache).toContain('UP_TO_DATE 1.10.0.0');
+  });
 
   test('UP_TO_DATE cache expires after 60 min (not 720)', () => {
     writeFileSync(join(gstackDir, 'VERSION'), '0.3.3\n');
