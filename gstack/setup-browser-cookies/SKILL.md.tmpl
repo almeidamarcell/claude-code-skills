@@ -6,7 +6,11 @@ description: |
   Import cookies from your real Chromium browser into the headless browse session.
   Opens an interactive picker UI where you select which cookie domains to import.
   Use before QA testing authenticated pages. Use when asked to "import cookies",
-  "login to the site", or "authenticate the browser".
+  "login to the site", or "authenticate the browser". (gstack)
+triggers:
+  - import browser cookies
+  - login to test site
+  - setup authenticated session
 allowed-tools:
   - Bash
   - Read
@@ -18,6 +22,14 @@ allowed-tools:
 # Setup Browser Cookies
 
 Import logged-in sessions from your real Chromium browser into the headless browse session.
+
+## CDP mode check
+
+First, check if browse is already connected to the user's real browser:
+```bash
+$B status 2>/dev/null | grep -q "Mode: cdp" && echo "CDP_MODE=true" || echo "CDP_MODE=false"
+```
+If `CDP_MODE=true`: tell the user "Not needed — you're connected to your real browser via CDP. Your cookies and sessions are already available." and stop. No cookie import needed.
 
 ## How it works
 
