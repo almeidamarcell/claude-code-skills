@@ -1,4 +1,4 @@
-[![Pepe Smoking](https://emojicreator.ai/packs/pepe-emojis-pack/pepesmoking.gif)](https://emojicreator.ai/emojis/pepesmoking)
+[![Pepe Smoking](https://cdn.emojicreator.ai/packs/pepe-emojis-pack/pepesmoking.gif)](https://emojicreator.ai/emojis/pepesmoking)
 
 by [Emoji Creator](https://emojicreator.ai/packs)
 
