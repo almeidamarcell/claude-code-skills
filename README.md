@@ -153,6 +153,12 @@ Skills activate automatically when Claude Code detects a matching context, or in
 |-------|-------------|
 | **[humanizer](humanizer/)** | Strip AI-generated tells from text — 29 patterns from Wikipedia's "Signs of AI writing" guide, with optional voice calibration to match your own writing sample |
 
+### Marketing & Social
+
+| Skill | Description |
+|-------|-------------|
+| **[social-assets-factory](social-assets-factory/)** | Generate conversion-focused social ad creatives (IG square/portrait/story) with the OpenAI Codex CLI — no API keys. Follows your repo's branding (DESIGN.md, theme config, CSS vars) when present, falls back to a saved brand profile |
+
 ### Impeccable Design (21 sub-skills)
 
 A collection of design-focused skills from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) for UI/UX refinement. Each targets a specific aspect of interface quality.
